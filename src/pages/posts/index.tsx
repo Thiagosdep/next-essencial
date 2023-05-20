@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 
-interface IPost {
+export interface IPost {
   id: string;
   title: string;
 }
@@ -30,5 +30,6 @@ export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
     props: {
       posts,
     },
+    revalidate: 60 * 10, // In seconds!
   };
 };
