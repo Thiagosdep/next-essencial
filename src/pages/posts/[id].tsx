@@ -1,6 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
-import { IPost } from '.';
 
 interface IComment {
   id: string;
@@ -13,8 +12,13 @@ interface ICommentsProps {
 
 export default function Post({ comments }: ICommentsProps) {
   const {
+    isFallback,
     query: { id },
   } = useRouter();
+
+  if (isFallback) {
+    return <p>Loading ...</p>;
+  }
 
   return (
     <>
@@ -29,16 +33,16 @@ export default function Post({ comments }: ICommentsProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch('http://localhost:3333/posts');
-  const posts: IPost[] = await response.json();
+  // const response = await fetch('http://localhost:3333/posts');
+  // const posts: IPost[] = await response.json();
 
-  const paths = posts.map(post => {
-    return { params: { id: String(post.id) } };
-  });
+  // const paths = posts.map(post => {
+  //   return { params: { id: String(post.id) } };
+  // });
 
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 };
 
