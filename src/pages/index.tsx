@@ -1,36 +1,27 @@
-import { GetServerSideProps } from 'next';
 import { SEO } from '../components/SEO';
+import styles from '../styles/home.module.scss';
 
-interface IPost {
-  id: string;
-  title: string;
-}
-
-interface IHomeProps {
-  posts: IPost[];
-}
-
-export default function Home({ posts }: IHomeProps) {
+export default function Home() {
   return (
-    <div>
-      <SEO title="Home" excludeTitleSuffix />
-      <h1>Posts</h1>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <SEO title="Dev News!" excludeTitleSuffix />
+
+      <main className={styles.content}>
+        <section className={styles.section}>
+          <span>Olá Dev!</span>
+          <h1>
+            Bem-vindo e bem-vinda
+            <br />
+            ao <span>Dev</span>News!
+          </h1>
+          <p>
+            Um blog com conteúdos extremamente <br />
+            <span>relevantes para o seu aprendizado!</span>
+          </p>
+        </section>
+
+        <img src="/home.svg" alt="home image" />
+      </main>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<IHomeProps> = async () => {
-  const response = await fetch('http://localhost:3333/posts');
-  const posts: IPost[] = await response.json();
-
-  return {
-    props: {
-      posts,
-    },
-  };
-};
